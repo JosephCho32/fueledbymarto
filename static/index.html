@@ -10,34 +10,52 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+
+
+  <style>
+    .event img {
+      border-top-left-radius: 2em;
+      border-top-right-radius: 2em;
+      border-bottom-right-radius: 2em;
+
+
+    }
+    img {
+      width:100%;
+      height:auto;
+    }
+    .event {
+      padding: 1rem;
+    }
+  </style>
 </head>
 <body>
   <nav class="light-blue lighten-1" role="navigation">
     <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
-      <ul class="right hide-on-med-and-down">
-        <li><a href="#">Navbar Link</a></li>
-      </ul>
-
-      <ul id="nav-mobile" class="side-nav">
-        <li><a href="#">Navbar Link</a></li>
-      </ul>
-      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul id="slide-out" class="side-nav" style="width:90%;">
+          <li>
+              <img class="materialboxed" src="cute kitty cat.png">
+          </li>
+          <li><a href="#!">Second Link</a></li>
+          <li><div class="divider"></div></li>
+          <li><a class="subheader">Subheader</a></li>
+          <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
+        </ul>
+        <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons white-text">menu</i></a>
+        
     </div>
   </nav>
   
 
 
   <div class="container">
-    <ul id="slide-out" class="side-nav" style="width:90%;">
-      <li>
-          <img class="materialboxed" src="cute kitty cat.png">
-        </li>
-      <li><a href="#!">Second Link</a></li>
-      <li><div class="divider"></div></li>
-      <li><a class="subheader">Subheader</a></li>
-      <li><a class="waves-effect" href="#!">Third Link With Waves</a></li>
-    </ul>
-    <a href="#" data-activates="slide-out" class="button-collapse"><i class="material-icons">menu</i></a>
+    <div class="evt_container">
+
+    </div>
+  
+  
+  
   </div>
 
   <footer class="page-footer orange">
@@ -50,5 +68,31 @@
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
 
+  <script> 
+
+
+  var events = []
+  $(document).ready(function() {
+    $.get( "/events", function( data ) {
+      console.log(data);
+      data.forEach(function(item) {
+        var evt_tmp = `
+          <div class="row gray event">
+              <div class="col s12 m4 l4">
+                <img src="${item.image}"></img>
+              </div>
+              <div class="col s12 m8 l8">
+                <h3> ${item.title} </h3>
+                <p> ${item.details} </p>
+              </div>
+          </div>
+        `.toString();
+        $(".evt_container").append(evt_tmp);
+      })
+
+     
+    });
+  });
+  </script>
   </body>
 </html>

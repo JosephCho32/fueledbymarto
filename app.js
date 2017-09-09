@@ -44,12 +44,12 @@ app.get("/events", function(req, res) {
       "location":"4567 your mom's house",
       "details": "come here plz",
       "summary":"K",
-      "image":"www.google.com"},
+      "image":"http://materializecss.com/images/sample-1.jpg"},
     {"title":"The greatest event 2",
       "location":"4567 your mom's house",
       "details": "come here plz",
       "summary":"K",
-      "image":"www.google.com"}
+      "image":"http://materializecss.com/images/sample-1.jpg"}
   ]
   res.send(dummy);
 });
