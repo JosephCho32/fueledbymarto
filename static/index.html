@@ -5,34 +5,19 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
   <title>Starter Template - Materialize</title>
-
+  
   <!-- CSS  -->
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400" rel="stylesheet">
+  <link href="/css/styles.css"></link>
 
-
-
-  <style>
-    .event img {
-      border-top-left-radius: 2em;
-      border-top-right-radius: 2em;
-      border-bottom-right-radius: 2em;
-
-
-    }
-    img {
-      width:100%;
-      height:auto;
-    }
-    .event {
-      padding: 1rem;
-    }
-  </style>
+  
 </head>
 <body>
   <nav class="light-blue lighten-1" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">Logo</a>
+    <div class="nav-wrapper container"><img class="brand-logo" src="/images/logo.png"></img>
       <ul id="slide-out" class="side-nav" style="width:90%;">
           <li>
               <img class="materialboxed" src="cute kitty cat.png">
@@ -50,11 +35,11 @@
 
 
   <div class="container">
-        <div class="evt_container">
+        <div class="evt_container row">
 
-    </div>
-  
-  
+        </div>
+        <div class="detailView">
+        </div>
   
 
   </div>
@@ -68,32 +53,75 @@
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/materialize.js"></script>
   <script src="js/init.js"></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.3/socket.io.js"></script>
   <script> 
 
 
   var events = []
   $(document).ready(function() {
     $.get( "/events", function( data ) {
+      var event;
+
       console.log(data);
+      events = data;
       data.forEach(function(item) {
         var evt_tmp = `
-          <div class="row gray event">
-              <div class="col s12 m3 l3">
+          <div id="${item.id}" class="col s12 m6 l4 white card event pad-1">
+              <div class="col s5 m12 l12">
                 <img src="${item.image}"></img>
               </div>
-              <div class="col s12 m9 l9">
-                <h3> ${item.title} </h3>
-                <p> ${item.details} </p>
+              <div class="col s7 m12 l12">
+                <h4> ${item.title} </h4>
+                <p> ${item.date} </p>
               </div>
           </div>
         `.toString();
         $(".evt_container").append(evt_tmp);
       })
+      $(".event").click(function() {
+      console.log("lol")
+      var id = $(this).attr("id");
+      //construct event view
+      $(".evt_container").fadeOut(function() {
+        $(".detailView").fadeIn(1000);
+      });
+
+      //collect event from id
+      events.forEach(function(item) {
+        if (item.id == id) {
+          event = item;
+          console.log(event);
+        }
+      })
+      var template = `
+      <div class="evt_detail_container">
+        <div class="col s12">
+          <img src="${event.image}"></img>
+        </div>
+        <div class="col s12">
+          <h1> ${event.title} </h1>
+          <h4> ${event.date} </h4>
+          <p> ${event.details} </p>
+          <button type="button" class="next waves-effect waves-light btn"> Directions </button> 
+        </div>
+        
+      </div>
+      `.toString();
+      $(".detailView").html(template);
+      $(".next").click(function(){
+        window.location = "/tracking?id=" + event.id;
+      });
+    })
+
 
      
     });
+
+
+    
   });
+
+ 
   </script>
   </body>
 </html>
