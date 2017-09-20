@@ -5,7 +5,7 @@ var port = process.env.PORT || 5000;
 var server = require('http').createServer(app);
 app.use(express.static('static'));
 var io = require('socket.io')(server);
-var googleAPI = "AIzaSyBxKo4_btFVqD3KhYiQ6XxaskHFe-S_TKY";
+var googleAPI = "";
 var directionsEndpoint = "https://maps.googleapis.com/maps/api/directions/json"
 
 var events = [
